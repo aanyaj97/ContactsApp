@@ -8,22 +8,33 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, UITextFieldDelegate {
 
-    @IBOutlet var nameLabel: UILabel!
-    @IBOutlet var phoneNumberLabel: UILabel!
+    @IBOutlet var nameTextField: UITextField!
+    @IBOutlet var phoneNumberTextField: UITextField!
     var contact: Contact?
     
     
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == self.nameTextField {
+            self.contact?.name = textField.text
+        } else if textField == self.phoneNumberTextField {
+            self.contact?.phoneNumber = textField.text
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.nameTextField.delegate = self
+        self.phoneNumberTextField.delegate = self
 
         if let contact = self.contact {
             if let name = contact.name {
-                self.nameLabel.text = name
+                self.nameTextField.text = name
             }
             if let phoneNumber = contact.phoneNumber {
-                self.phoneNumberLabel.text = phoneNumber
+                self.phoneNumberTextField.text = phoneNumber
             }
         }
     }
